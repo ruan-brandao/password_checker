@@ -1,6 +1,8 @@
 defmodule PasswordCheckerWeb.Router do
   use PasswordCheckerWeb, :router
 
+  alias PasswordCheckerWeb.PasswordValidationsController
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,6 +24,8 @@ defmodule PasswordCheckerWeb.Router do
     scope "/" do
       pipe_through [:fetch_session, :protect_from_forgery]
       live_dashboard "/dashboard", metrics: PasswordCheckerWeb.Telemetry
+
+      post "/validate_password", PasswordValidationsController, :new
     end
   end
 end
