@@ -3,44 +3,23 @@ defmodule PasswordChecker.ValidatorTest do
 
   alias PasswordChecker.Validator
 
-  test "valid?/1 returns false if the password has less than 9 characters" do
-    refute Validator.valid?("")
-    refute Validator.valid?("aa")
-    refute Validator.valid?("ab")
-    refute Validator.valid?("12345678")
+  defmodule PassingValidation do
+    def valid?(_), do: true
   end
 
-  test "valid?/1 returns false when password has no digits in it" do
-    assert Validator.valid?("AbTp9!fok")
-    refute Validator.valid?("AbTpu!fok")
+  defmodule FailingValidation do
+    def valid?(_), do: false
   end
 
-  test "valid?/1 returns false when password has no downcase characters" do
-    assert Validator.valid?("AbTp9!fok")
-    refute Validator.valid?("ABTP9!FOK")
+  test "valid?/2 returns true when all validations are successful" do
+    validation_rules = [PassingValidation, PassingValidation]
+
+    assert Validator.valid?("password", validation_rules)
   end
 
-  test "valid?/1 returns false when password has no upcase characters" do
-    assert Validator.valid?("AbTp9!fok")
-    refute Validator.valid?("abtp9!fok")
-  end
+  test "valid?/2 returns false when one or more validations fail" do
+    validation_rules = [PassingValidation, FailingValidation, PassingValidation]
 
-  test "valid?/1 returns false when password has no special characters" do
-    assert Validator.valid?("AbTp9!fok")
-    assert Validator.valid?("AbTp9_fok")
-    refute Validator.valid?("AbTp91fok")
-  end
-
-  test "valid?/1 returns false when password has repeated characters" do
-    refute Validator.valid?("AAAbbbCc")
-    refute Validator.valid?("AbTp9!foo")
-    assert Validator.valid?("AbTp9!fok")
+    refute Validator.valid?("password", validation_rules)
   end
 end
-
-# Nove ou mais caracteres
-# Ao menos 1 dígito
-# Ao menos 1 letra minúscula
-# Ao menos 1 letra maiúscula
-# Ao menos 1 caractere especial
-# Não possuir caracteres repetidos
