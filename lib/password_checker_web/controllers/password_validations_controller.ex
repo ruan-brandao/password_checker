@@ -1,10 +1,8 @@
 defmodule PasswordCheckerWeb.PasswordValidationsController do
   use PasswordCheckerWeb, :controller
 
-  alias PasswordChecker.Validator
-
   def new(conn, %{"password" => password}) do
-    json(conn, %{password: password, valid: Validator.valid?(password)})
+    json(conn, %{password: password, valid: PasswordChecker.valid?(password)})
   end
 
   def new(conn, _params) do
