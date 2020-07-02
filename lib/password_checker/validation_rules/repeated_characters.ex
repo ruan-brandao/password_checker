@@ -1,4 +1,8 @@
 defmodule PasswordChecker.ValidationRules.RepeatedCharacters do
+  @moduledoc """
+  Validation rule that checks if the password has no repeated characters. 
+  """
+
   @behaviour PasswordChecker.ValidationRule
 
   @impl PasswordChecker.ValidationRule

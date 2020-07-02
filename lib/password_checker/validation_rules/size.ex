@@ -1,4 +1,8 @@
 defmodule PasswordChecker.ValidationRules.Size do
+  @moduledoc """
+  Validation rule that checks if the password has a valid size. 
+  """
+
   @behaviour PasswordChecker.ValidationRule
 
   @minimum_character_amount 9
